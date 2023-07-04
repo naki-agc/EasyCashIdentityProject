@@ -1,19 +1,15 @@
 ﻿using EasyCashIdentityProject.EntityLayer.Concrete;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace EasyCashIdentityProject.DataAccessLayer.Concrete
 {
-    public class Context:IdentityDbContext
+    public class Context : IdentityDbContext<AppUser, AppRole, int>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=DESKTOP-7Q9LTAE;initial catalog=EasyCahDb;integrated Security=true");
+            optionsBuilder.UseSqlServer("server=NAKI\\SQLEXPRESS;initial catalog=EasyCahDb;integrated Security=true");
         }
 
         public DbSet<CustomerAccount> CustomerAccounts { get; set; }

@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using EasyCashIdentityProject.DataAccessLayer.Concrete;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+string connectionString = "server=NAKI;initial catalog=EasyCahDb;integrated Security=true";
+builder.Services.AddDbContext<Context>(options =>
+    options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
