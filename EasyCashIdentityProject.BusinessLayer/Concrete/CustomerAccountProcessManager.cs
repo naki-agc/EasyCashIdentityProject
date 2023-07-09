@@ -19,6 +19,10 @@ namespace EasyCashIdentityProject.BusinessLayer.Concrete
         }
 
         public void TDelete(CustomerAccountProcess t)
+
+
+
+
         {
             _customerAccountProcessService.TDelete(t);
         }
