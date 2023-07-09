@@ -9,8 +9,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<Context>();
 builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<Context>();
 
-string connectionString = "server=NAKI;initial catalog=EasyCahDb;integrated Security=true";
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
