@@ -7,8 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 string connectionString = "server=NAKI;initial catalog=EasyCahDb;integrated Security=true";
-builder.Services.AddDbContext<Context>(options =>
-    options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
