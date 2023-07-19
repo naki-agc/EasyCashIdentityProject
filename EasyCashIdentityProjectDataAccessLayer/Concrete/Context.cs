@@ -9,7 +9,7 @@ namespace EasyCashIdentityProject.DataAccessLayer.Concrete
 	{
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer("server=NAKI\\SQLEXPRESS;initial catalog=EasyCahDb;integrated Security=true");
+			optionsBuilder.UseSqlServer("server=NAKI\\SQLEXPRESS;initial catalog=EasyCashDb;integrated Security=true");
 		}
 
 		public DbSet<CustomerAccount> CustomerAccounts { get; set; }
