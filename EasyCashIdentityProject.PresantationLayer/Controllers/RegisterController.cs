@@ -1,8 +1,10 @@
 ﻿using EasyCashIdentityProject.DtoLayer.Dtos.AppUserDtos;
 using EasyCashIdentityProject.EntityLayer.Concrete;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using MimeKit;
 
 namespace EasyCashIdentityProject.PresentationLayer.Controllers
 {
@@ -26,6 +28,8 @@ namespace EasyCashIdentityProject.PresentationLayer.Controllers
         {
             if (ModelState.IsValid)
             {
+                Random rnd = new Random();
+
                 AppUser appUser = new AppUser()
                 {
                     UserName = appUserRegisterDto.UserName,
@@ -35,12 +39,33 @@ namespace EasyCashIdentityProject.PresentationLayer.Controllers
                     City = "aaaa",
                     District = "bbbb",
                     ImageUrl = "cccc",
+                    ConfirmCode = rnd.Next(100000,1000000)
                 };
 
 			    var result = await _userManager.CreateAsync(appUser, appUserRegisterDto.Password);
 
                 if (result.Succeeded)
                 {
+                    MimeMessage mimeMessage = new MimeMessage();
+                    MailboxAddress mailboxAddressFrom = new MailboxAddress("Easy Cash Admin-Naki ", "nakiagca10@gmail.com");
+                    MailboxAddress mailboxAddressTo = new MailboxAddress("user", appUser.Email);
+
+                    mimeMessage.From.Add(mailboxAddressFrom);
+                    mimeMessage.To.Add(mailboxAddressTo);
+
+                    var bodyBuilder = new BodyBuilder();
+                    bodyBuilder.TextBody = "Kayıt işleminini gerçekleştirmek için onay kodunuz : " + appUser.ConfirmCode;
+                    mimeMessage.Body = bodyBuilder.ToMessageBody();
+
+                    mimeMessage.Subject = "Easy Cash Onay kodu";
+
+
+                    SmtpClient client = new SmtpClient();
+                    client.Connect("smtp.gmail.com", 587, false);
+                    client.Authenticate("nakiagca10@gmail.com", "jlnbafanqrwkqnzc");
+                    client.Send(mimeMessage);
+                    client.Disconnect(true);
+
                     return RedirectToAction("Index", "ConfirmMail");
                 }
                 else
